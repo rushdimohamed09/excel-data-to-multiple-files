@@ -14,6 +14,14 @@ This Python script generates language files in and JSON formats from an Excel fi
 2. Copy your Excel file to the same directory as the Python scripts.
 3. Open the `generatelanguages.py` script and modify the following line to match your Excel file name:
 
+## Run the command in one of the following approaches 
+
+1. Without filename parameter. This approach you just need to replace the sample.php file with your data\
+```python3 generateLanguages.py```
+
+2. With filename parameter. This approach you can run the script with desire file without replacing the sample.php file\
+```python3 generateLanguages.py filename=sample.xlsx```
+
 ## Excel sheet Preview 
 
 To use this script, you will need to provide an Excel file as shawn below. The Excel sheet should have a header row with the language codes (e.g. "English", "French", "German", "Spanish", etc.) and a second row with the corresponding two-letter language codes (e.g. "en", "fr", "de", "es", etc.). The first column of the sheet should contain a keyName for each translation, and the second column should contain the actual text to be translated. The remaining columns should contain the translations for each language, with each translation corresponding to the key name in the first column.
