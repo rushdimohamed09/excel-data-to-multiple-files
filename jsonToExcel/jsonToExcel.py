@@ -20,32 +20,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import openpyxl
-import json
+import os
 import sys
 
-# Check if filename parameter was provided
-isParameter = False
-if len(sys.argv) > 1:
-    isParameter = True
-    filename = sys.argv[1].split('=')[1]
-else:
-    filename = 'sample.json'
+# Get the parent directory of the current script (root folder)
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Add the root folder to the Python module search path
+sys.path.append(root_dir)
+from utils.file_utils import read_json_file
+import openpyxl
+
+# Check if filename parameter was provided
 # Load the JSON file
-try:
-    with open(filename, 'r') as f:
-        data = json.load(f)
-except FileNotFoundError:
-    print(f"Error: '{filename}' not found.")
-    if isParameter:
-        print(f"Provided parameter filename : '{filename}' is not found in the current directory, \nPlease add the file to the current directory and run the command back!")
-    else:
-        print(f"Seems like you have mistakenly deleted the '{filename}'")
-    sys.exit(1)
-except json.JSONDecodeError:
-    print(f"Error: '{filename}' is not in a valid JSON format.")
-    sys.exit(1)
+defaultFileName = 'sample.json'
+data, filename = read_json_file(defaultFileName)
 
 # Create a new workbook and sheet
 wb = openpyxl.Workbook()
@@ -61,5 +50,6 @@ for i, key in enumerate(data.keys()):
     sheet[f"B{i+2}"] = data[key]
 
 # Save the workbook
-wb.save('languagedata.xlsx')
+languageDataFile = 'jsonToExcel/languagedata.xlsx'
+wb.save(languageDataFile)
 print(f"Excel file generated successfully based on {filename}!")

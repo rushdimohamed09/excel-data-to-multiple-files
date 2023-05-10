@@ -20,54 +20,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from utils.file_utils import read_excel_file, create_lang_dictionary
 import pandas as pd
 import json
-import sys
 import os
 
 # Check if filename parameter was provided
-isParameter = False
-if len(sys.argv) > 1:
-    isParameter = True
-    filename = sys.argv[1].split('=')[1]
-else:
-    filename = 'languageData.xlsx'
-
 # Read the Excel file into a Pandas dataframe
-try:
-    df = pd.read_excel(filename, header=1)
-except FileNotFoundError:
-    print(f"Error: '{filename}' not found.")
-    if (isParameter):
-        print(f"Provided parameter filename : '{filename}' is not found in the current directory, \nPlease add the file to the current directory and run the command back!")
-    else:
-        print(f"Seems like you have mistakenly deleted the '{filename}'")
-    sys.exit(1)
+defaultFileName = 'languageData.xlsx'
+df, filename = read_excel_file(defaultFileName)
 
 # Get the language columns from the dataframe
-language_columns = list(df.columns[2:])
+languageColumns = list(df.columns[2:])
 
 # Create folders for each language
-parent_folder = "lang"
-os.makedirs(parent_folder, exist_ok=True)
+parentFolder = "lang"
+os.makedirs(parentFolder, exist_ok=True)
 
 # Loop through the dataframe and create a dictionary of dictionaries for each language
-lang_dict = {}
-for lang in language_columns:
-    lang_dict[lang] = {}
-    for index, row in df.iterrows():
-        key_name = row[0]
-        text = row[lang]
-        if pd.notnull(text):
-            keys = key_name.split(".")
-            cur_dict = lang_dict[lang]
-            for key in keys[:-1]:
-                cur_dict = cur_dict.setdefault(key, {})
-            cur_dict[keys[-1]] = text
+langDict = create_lang_dictionary(languageColumns, df)
 
-# Loop through the language dictionary and write the custom_php files for each language
-for lang, lang_dict in lang_dict.items():
-    file_name = lang.lower()
-    file_path = os.path.join("lang", file_name+'.json')
-    with open(file_path, "w", encoding='utf-8') as f:
-        json.dump(lang_dict, f, ensure_ascii=False, indent=4)
+# Loop through the language dictionary and write the language_code.json file for each language
+for lang, langDict in langDict.items():
+    fileName = lang.lower()+'.json'
+    filePath = os.path.join("lang", fileName)
+    with open(filePath, "w", encoding='utf-8') as f:
+        json.dump(langDict, f, ensure_ascii=False, indent=4)
+        print(f"Successfully completed generating {fileName}")
