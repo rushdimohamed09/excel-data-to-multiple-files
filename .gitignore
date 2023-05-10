@@ -1,3 +1,4 @@
 /lang
+/utils/__pycache__
 /jsonToExcel/languagedata.xlsx
 /phpToExcel/languagedata.xlsx

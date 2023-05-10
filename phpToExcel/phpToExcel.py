@@ -20,42 +20,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import openpyxl
-import ast
+import os
 import sys
 
+# Get the parent directory of the current script (root folder)
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Add the root folder to the Python module search path
+sys.path.append(root_dir)
+from utils.file_utils import read_php_file
+import openpyxl
+
 # Check if filename parameter was provided
-isParameter = False
-if len(sys.argv) > 1:
-    isParameter = True
-    filename = sys.argv[1].split('=')[1]
-else:
-    filename = 'sample.php'
-
 # Read the PHP file as text
-try:
-    with open(filename, 'r') as f:
-        php_text = f.read()
-except FileNotFoundError:
-    print(f"Error: '{filename}' not found.")
-    if (isParameter):
-        print(f"Provided parameter filename : '{filename}' is not found in the current directory, \nPlease add the file to the current directory and run the command back!")
-    else:
-        print(f"Seems like you have mistakenly deleted the '{filename}'")
-    sys.exit(1)
-
-# Extract the array from the PHP code
-try:
-    data = ast.literal_eval(
-        php_text.split("return ")[1]
-            .split(';')[0]
-            .replace('[', '{')
-            .replace(']', '}')
-            .replace('=>', ':')
-        )
-except (ValueError, IndexError, SyntaxError):
-    print(f"Error: {filename} does not contain a valid PHP associative array.")
-    sys.exit(1)
+defaultFileName = 'sample.php'
+data, filename = read_php_file(defaultFileName)
 
 # Create a new workbook and select the active worksheet
 wb = openpyxl.Workbook()
@@ -69,5 +48,6 @@ for key, value in data.items():
     ws.append([key, value])
 
 # Save the workbook
-wb.save('languagedata.xlsx')
+languageDataFile = 'phpToExcel/languagedata.xlsx'
+wb.save(languageDataFile)
 print(f"Excel file generated successfully based on {filename}!")
