@@ -38,18 +38,18 @@ data, filename = read_json_file(defaultFileName)
 
 # Create a new workbook and sheet
 wb = openpyxl.Workbook()
-sheet = wb.active
+ws = wb.active
 
-# Add the header
-sheet["A1"] = "keyName"
-sheet["B1"] = "text"
+# Set the header row
+ws.append(['keyName', 'text'])
+ws.append([])
 
 # Add the data
-for i, key in enumerate(data.keys()):
-    sheet[f"A{i+2}"] = key
-    sheet[f"B{i+2}"] = data[key]
+for i, key in enumerate(data.keys(), start=3):
+    ws[f"A{i}"] = key
+    ws[f"B{i}"] = data[key]
 
 # Save the workbook
-languageDataFile = 'jsonToExcel/languagedata.xlsx'
+languageDataFile = 'jsonToExcel/languageData.xlsx'
 wb.save(languageDataFile)
-print(f"Excel file generated successfully based on {filename}!")
+print(f"{languageDataFile} file generated successfully based on {filename}!")

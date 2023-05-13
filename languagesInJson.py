@@ -42,8 +42,12 @@ langDict = create_lang_dictionary(languageColumns, df)
 
 # Loop through the language dictionary and write the language_code.json file for each language
 for lang, langDict in langDict.items():
-    fileName = lang.lower()+'.json'
+    fileName = lang.lower() + '.json'
     filePath = os.path.join("lang", fileName)
+    
+    # Replace single quotes with escaped double quotes in langDict values
+    langDict_modified = {key: value.replace("'", '"') for key, value in langDict.items()}
+    
     with open(filePath, "w", encoding='utf-8') as f:
-        json.dump(langDict, f, ensure_ascii=False, indent=4)
-        print(f"Successfully completed generating {fileName}")
+        json.dump(langDict_modified, f, ensure_ascii=False, indent=4)
+print(f"Language JSON files are successfully completed generating based on {defaultFileName}")

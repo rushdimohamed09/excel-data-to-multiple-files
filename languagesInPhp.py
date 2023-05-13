@@ -52,7 +52,10 @@ for lang, langDict in langDict.items():
         f.write("<?php\n\nreturn [\n")
 
         for keyName, text in langDict.items():
+            # Replace single quotes with Escape double quotes
+            if folderName in ['ar']:
+                text = text.replace("'", '\\"')
             f.write(f'    "{keyName}" => "{text}",\n')
 
         f.write("];")
-        print(f"Successfully completed generating {folderName}/custom.php")
+print(f"Language PHP files are successfully completed generating based on {defaultFileName}")
