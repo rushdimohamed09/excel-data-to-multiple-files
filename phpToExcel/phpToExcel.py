@@ -42,12 +42,13 @@ ws = wb.active
 
 # Set the header row
 ws.append(['keyName', 'text'])
+ws.append([])
 
 # Add data to the worksheet
 for key, value in data.items():
     ws.append([key, value])
 
 # Save the workbook
-languageDataFile = 'phpToExcel/languagedata.xlsx'
+languageDataFile = 'phpToExcel/languageData.xlsx'
 wb.save(languageDataFile)
-print(f"Excel file generated successfully based on {filename}!")
+print(f"{languageDataFile} file generated successfully based on {filename}!")
