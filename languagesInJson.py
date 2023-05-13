@@ -45,8 +45,8 @@ for lang, langDict in langDict.items():
     fileName = lang.lower() + '.json'
     filePath = os.path.join("lang", fileName)
     
-    # Replace single quotes with escaped double quotes in langDict values
-    langDict_modified = {key: value.replace("'", '"') for key, value in langDict.items()}
+    # Replace double quotes with single quotes in langDict values
+    langDict_modified = {key: value.replace('"',"'") for key, value in langDict.items()}
     
     with open(filePath, "w", encoding='utf-8') as f:
         json.dump(langDict_modified, f, ensure_ascii=False, indent=4)
