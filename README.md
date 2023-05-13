@@ -1,6 +1,6 @@
 # Generate Language Files
 
-This Python script generates language files in and JSON formats from an Excel file. The Excel file should have a header row with column names in English and subsequent rows with translated text for each language. This script can help you to include languages to your website efficiently. 
+This Python script generates language files in and JSON/PHP associative array formats from an Excel file. The Excel file should have a header row with column names in English and subsequent rows with translated text for each language. This script can help you to include languages to your website efficiently. 
 
 ## Installation
 
@@ -12,15 +12,19 @@ This Python script generates language files in and JSON formats from an Excel fi
 
 1. Clone or download this repository to your computer.
 2. Copy your Excel file to the same directory as the Python scripts.
-3. Open the `generatelanguages.py` script and modify the following line to match your Excel file name:
+3. There are two python scripts in the root folder as `languagesInJson.py` and `languagesInPhp.py` respectively generates languages in JSON format and PHP associative array format:
 
 ## Run the command in one of the following approaches 
 
+NOTE: Please run all the commands from the root folder terminal\
+
+(Both `languagesInJson.py` and `languagesInPhp.py` uses the same convention and following example will demonstrates in JSON)\
+
 1. Without filename parameter. This approach you just need to replace the sample.php file with your data\
-```python3 generateLanguages.py```
+```python3 languagesInJson.py```
 
 2. With filename parameter. This approach you can run the script with desire file without replacing the sample.php file\
-```python3 generateLanguages.py filename=sample.xlsx```
+```python3 languagesInJson.py filename=sample.xlsx```
 
 ## Excel sheet Preview 
 
@@ -46,3 +50,8 @@ To use this script, you will need to provide an Excel file as shawn below. The E
   "no": "No"
 }
 
+## Generate Excel file from JSON/PHP associateive format
+
+Read the following README.md files
+1. [Generate from JSON file](./jsonToExcel/README.md)
+2. [Generate from PHP file](./phpToExcel/README.md)
